@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 
+# Form the quiz game
+
 
 class QuizApp:
     def __init__(self, root):
@@ -32,7 +34,7 @@ class QuizApp:
         self.current_question = -1
 
         self.question_label = Label(
-            self.root, text=self.questions[0], font=("Arial", 16))
+            self.root, text=self.questions[0], font=("Comic Sans MS", 16))
         self.question_label.pack(pady=20)
 
         self.answer_var = IntVar()
@@ -49,6 +51,7 @@ class QuizApp:
 
         self.next_question()
 
+    # Functions
     def next_question(self):
         if self.current_question < len(self.questions):
             selected_option = self.answer_var.get()
@@ -67,33 +70,72 @@ class QuizApp:
     def show_result(self):
         result = f"You scored {self.score} out of {len(self.questions)}"
         messagebox.showinfo("Quiz Result", result)
-        self.root.destroy()
+        open_start_page()
+
+
+class QuizSettings:
+    def __init__(self, root):
+        self.root = root
+        self.root.geometry('1000x600')
+        self.root.title('My Quiz Academy')
+        quiz_back = Button(root, text='Go Back', command=open_start_page)
+        quiz_back.pack()
 
 
 def open_quiz():
-    quiz_root = tk.Toplevel()
-    quiz_app = QuizApp(quiz_root)
+    clear_window()
+    quiz_app = QuizApp(root)
 
 
 def open_settings():
-    settings_root = tk.Toplevel()
+    clear_window()
+    quiz_app = QuizSettings(root)
+
+
+def open_start_page():
+    clear_window()
+
+    root.configure(bg="#18141D")
+
+    title_label = Label(root, bg="#18141D", font=(
+        "Comic Sans MS", 24), fg="white")
+    title_label.pack(anchor="nw", padx=20, pady=10)
+
+    title_text = "My Quiz Academy"
+    parts = title_text.split()
+
+    for part in parts:
+        if part == "Quiz":
+            label = Label(title_label, text=part, bg="#18141D",
+                          font=("Comic Sans MS", 50), fg="#ED3A50")
+        else:
+            label = Label(title_label, text=part, bg="#18141D",
+                          font=("Comic Sans MS", 50), fg="white")
+        label.pack(side="left")
+
+
+def clear_window():
+    for widget in root.winfo_children():
+        widget.destroy()
 
 
 # start page window
-second_root = tk.Toplevel()
-second_root.geometry('1000x600')
-second_root.title('My Quiz Academy')
+root = tk.Tk()
+root.geometry('1000x600')
+root.title('My Quiz Academy')
 
-second_label = Label(second_root, text='My Quiz Academy')
-second_label.pack(pady=20)
+open_start_page()
 
-quiz_button = Button(second_root, text='Start Game', command=open_quiz)
-quiz_button.pack()
+quiz_button = Button(root, text='Start Game',
+                     command=open_quiz, font=("Comic Sans MS", 14))
+quiz_button.place(x=450, y=300)
 
-settings_button = Button(second_root, text='Settings', command=open_settings)
-settings_button.pack()
+settings_button = Button(root, text='Settings',
+                         command=open_settings, font=("Comic Sans MS", 14))
+settings_button.place(x=450, y=340)
 
-quit_button = Button(second_root, text='Quit', command=second_root.destroy)
-quit_button.pack()
+quit_button = Button(root, text='Quit', command=root.destroy,
+                     font=("Comic Sans MS", 14))
+quit_button.place(x=450, y=380)
 
-second_root.mainloop()
+root.mainloop()
