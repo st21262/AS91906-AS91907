@@ -1,8 +1,12 @@
+# Import necessary libraries
 from pygame import mixer
+from pygame.locals import *
 import pygame
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import *
+
+# Define the QuizApp class
 
 
 class QuizApp:
@@ -11,6 +15,7 @@ class QuizApp:
         self.root.geometry('1000x600')
         self.root.title('My Quiz Academy')
 
+# Define quiz questions
         self.questions = [
             "What is a group of crows called?",
             "How many dots appear on a pair of dice?",
@@ -18,6 +23,8 @@ class QuizApp:
             "What planet is closest to the sun?",
             "Where did sushi originate?"
         ]
+
+# Define answer options for each question
 
         self.options = [
             ['A murder', 'A pack', 'A school', 'A group'],
@@ -41,7 +48,7 @@ class QuizApp:
         self.option_buttons = []
         for i, option in enumerate(self.options[0]):
             option_button = Radiobutton(
-                self.root, text=option, font=("Comic Sans MS", 14), bg="black", variable=self.answer_var, value=i)
+                self.root, text=option, font=("Comic Sans MS", 14), bg="#18141D", variable=self.answer_var, value=i)
             option_button.pack(anchor=W, padx=20)
             self.option_buttons.append(option_button)
 
@@ -77,23 +84,33 @@ class QuizApp:
         messagebox.showinfo("Quiz Result", result)
         open_start_page()
 
+# Defining the quiz settings class
+
 
 class QuizSettings:
     def __init__(self, root):
         self.root = root
         self.root.geometry('1000x600')
         self.root.title('My Quiz Academy')
+
+        # Add a label for BGM settings
+        bgm_label = Label(root, text="BGM Settings:",
+                          bg="#18141D", font=("Comic Sans MS", 16), fg="white")
+        bgm_label.place(x=450, y=270)
+
         quiz_back = Button(root, text='Go Back', font=(
             "Comic Sans MS", 14), command=open_start_page)
         scale = Scale(root, from_=0, to=100,
                       orient=HORIZONTAL, command=change_volume)
         scale.set(50)
         title_label = Label(root, text='Settings', bg="#18141D", font=(
-            "Comic Sans MS", 26), fg="black")
+            "Comic Sans MS", 26), fg="white")
         title_label.place(x=425, y=100)
 
         scale.place(x=450, y=300)
         quiz_back.place(x=0, y=0)
+
+# function to change background music volume
 
 
 def change_volume(val):
@@ -101,25 +118,33 @@ def change_volume(val):
     pygame.mixer.music.set_volume(volume)
 
 
+# Function to open the quiz
 def open_quiz():
     clear_window()
     quiz_app = QuizApp(root)
+
+# Function to open the settings
 
 
 def open_settings():
     clear_window()
     quiz_app = QuizSettings(root)
 
+# Function to open the start page
+
 
 def open_start_page():
     clear_window()
 
+    # Set background color
     root.configure(bg="#18141D")
 
+    # Create title label
     title_label = Label(root, bg="#18141D", font=(
         "Comic Sans MS", 24), fg="white")
     title_label.pack(anchor="nw", padx=20, pady=10)
 
+    # Create title with colored text
     title_text = "My Quiz Academy"
     parts = title_text.split()
 
@@ -132,6 +157,7 @@ def open_start_page():
                           font=("Comic Sans MS", 50), fg="white")
         label.pack(side="left")
 
+    # Create buttons for quiz, settings, and quit
     quiz_button = Button(root, text='Start Game', bg="#18141D", fg="black",
                          command=open_quiz, font=("Comic Sans MS", 14))
     quiz_button.place(x=450, y=250)
@@ -144,15 +170,21 @@ def open_start_page():
                          font=("Comic Sans MS", 14))
     quit_button.place(x=480, y=350)
 
+# Function to open the quiz
+
 
 def open_quiz():
     clear_window()
     quiz_app = QuizApp(root)
 
+# Function to open the settings
+
 
 def open_settings():
     clear_window()
     quiz_app = QuizSettings(root)
+
+# Function to clear the window
 
 
 def clear_window():
@@ -160,11 +192,13 @@ def clear_window():
         widget.destroy()
 
 
-# start page window
+# Initialize the GUI window
 root = tk.Tk()
 root.geometry('1000x600')
 root.title('My Quiz Academy')
 
+# Open the start page
 open_start_page()
 
+# Main event loop
 root.mainloop()
